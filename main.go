@@ -23,5 +23,5 @@ package main
 import "github.com/yieldbot/sensupluginsdisk/sensupluginsdisk"
 
 func main() {
-	cmd.Execute()
+	sensupluginsdisk.Execute()
 }

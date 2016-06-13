@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package cmd
+package sensupluginsdisk
 
 import (
 	"fmt"
@@ -27,8 +27,8 @@ import (
 )
 
 // checkDiskUsgaeCmd represents the checkDiskUsgae command
-var checkDiskUsgaeCmd = &cobra.Command{
-	Use:   "checkDiskUsgae",
+var checkDiskUsageCmd = &cobra.Command{
+	Use:   "checkDiskUsage",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -36,14 +36,14 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(sensupluginsdisk *cobra.Command, args []string) {
 		// TODO: Work your own magic here
-		fmt.Println("checkDiskUsgae called")
+		fmt.Println("checkDiskUsage called")
 	},
 }
 
 func init() {
-	RootCmd.AddCommand(checkDiskUsgaeCmd)
+	RootCmd.AddCommand(checkDiskUsageCmd)
 
 	// Here you will define your flags and configuration settings.
 

@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package cmd
+package sensupluginsdisk
 
 import (
 	"fmt"
@@ -51,7 +51,7 @@ func ListPartitions() []string {
 }
 
 func (i InodeDetails) InodeInfo(d string) *InodeDetails {
-  u, _ := disk.Usage(d)
+	u, _ := disk.Usage(d)
 	i.InodesTotal = u.InodesTotal
 	i.InodesUsed = u.InodesUsed
 	i.InodesFree = u.InodesFree
@@ -70,7 +70,7 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(sensupluginsdisk *cobra.Command, args []string) {
 		pList = ListPartitions()
 		for _, p := range pList {
 
@@ -78,6 +78,7 @@ to quickly create a Cobra application.`,
 
 		}
 		fmt.Println(pList)
+		fmt.Println(inodes)
 	},
 }
 
