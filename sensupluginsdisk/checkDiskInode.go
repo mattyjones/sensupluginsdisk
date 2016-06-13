@@ -27,8 +27,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// pList is a list of partitions tobe checked for inode usage
 var pList []string
 
+// InodeDetails represents detailed info about the inodess of a specific mountpoint
 type InodeDetails struct {
 	InodesTotal       uint64
 	InodesUsed        uint64
@@ -37,19 +39,10 @@ type InodeDetails struct {
 	Mountpoint        string
 }
 
-var inodes []InodeDetails
+// Represents all the mountpoints and that have been checkled
+var inodes []*InodeDetails
 
-func ListPartitions() []string {
-	var pl []string
-	// Setting Partitions to true will also give you virtual and non-user filesystems.
-	p, _ := disk.Partitions(false)
-
-	for _, d := range p {
-		pl = append(pl, d.Mountpoint)
-	}
-	return pl
-}
-
+// InodeInfo will return the inode details for a given mountpoint to later be checked
 func (i InodeDetails) InodeInfo(d string) *InodeDetails {
 	u, _ := disk.Usage(d)
 	i.InodesTotal = u.InodesTotal
@@ -74,11 +67,13 @@ to quickly create a Cobra application.`,
 		pList = ListPartitions()
 		for _, p := range pList {
 
-			inodes = append(inodes, InodeInfo(p))
+			in := new(InodeDetails)
+			in = in.InodeInfo(p)
+			inodes = append(inodes, in)
 
 		}
 		fmt.Println(pList)
-		fmt.Println(inodes)
+		fmt.Println()
 	},
 }
 
