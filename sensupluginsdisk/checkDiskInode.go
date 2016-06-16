@@ -21,14 +21,14 @@
 package sensupluginsdisk
 
 import (
-	"fmt"
+	"bytes"
+	"strconv"
+	"strings"
 
 	"github.com/shirou/gopsutil/disk"
 	"github.com/spf13/cobra"
+	"github.com/yieldbot/sensuplugin/sensuutil"
 )
-
-// pList is a list of partitions tobe checked for inode usage
-var pList []string
 
 // InodeDetails represents detailed info about the inodess of a specific mountpoint
 type InodeDetails struct {
@@ -64,6 +64,10 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(sensupluginsdisk *cobra.Command, args []string) {
+
+		condition := ""
+		var msg, pList []string
+
 		pList = ListPartitions()
 		for _, p := range pList {
 
@@ -72,22 +76,34 @@ to quickly create a Cobra application.`,
 			inodes = append(inodes, in)
 
 		}
-		fmt.Println(pList)
-		fmt.Println()
+		for _, i := range inodes {
+			condition = CheckThreshold(i.InodesUsedPercent, warnThreshold, critThreshold)
+			if condition != "0" {
+				var buffer bytes.Buffer
+				buffer.WriteString(i.Mountpoint)
+				buffer.WriteString("is above the threshold. Usage is")
+				buffer.WriteString(" ")
+				buffer.WriteString(strconv.FormatUint(i.InodesUsed, 10))
+				buffer.WriteString("/")
+				buffer.WriteString(strconv.FormatUint(i.InodesTotal, 10))
+
+				msg = append(msg, buffer.String())
+			}
+		}
+
+		// exit with the right code
+		switch condition {
+		case "1":
+			sensuutil.Exit(condition, strings.Join(msg, ","))
+		case "2":
+			sensuutil.Exit(condition, strings.Join(msg, ","))
+		default:
+			sensuutil.Exit(condition)
+		}
+
 	},
 }
 
 func init() {
 	RootCmd.AddCommand(checkDiskInodeCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// checkDiskInodeCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// checkDiskInodeCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-
 }

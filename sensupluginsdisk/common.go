@@ -33,3 +33,16 @@ func ListPartitions() []string {
 	}
 	return pl
 }
+
+// CheckThreshold will determine if a given number is greater than either a
+// warning or critical threshold. It will return an exit code that can be
+func CheckThreshold(val float64, warnT float64, critT float64) string {
+	switch {
+	case val >= critT:
+		return "2"
+	case val >= warnT:
+		return "1"
+	default:
+		return "0"
+	}
+}

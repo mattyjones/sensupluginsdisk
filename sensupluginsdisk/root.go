@@ -30,6 +30,12 @@ import (
 
 var cfgFile string
 
+var warnThreshold float64
+var critThreshold float64
+
+var condition string
+var msg string
+
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
 	Use:   "sensupluginsdisk",
@@ -59,6 +65,9 @@ func init() {
 	// will be global for your application.
 
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.sensupluginsdisk.yaml)")
+	RootCmd.PersistentFlags().Float64VarP(&warnThreshold, "warn", "", 0.0, "the alert warning threshold")
+	RootCmd.PersistentFlags().Float64VarP(&critThreshold, "crit", "", 0.0, "the alert critical threshold")
+
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	RootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
