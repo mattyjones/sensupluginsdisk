@@ -55,7 +55,7 @@ func (i InodeDetails) InodeInfo(d string) *InodeDetails {
 
 // checkDiskInodeCmd represents the checkDiskInode command
 var checkDiskInodeCmd = &cobra.Command{
-	Use:   "checkDiskInode",
+	Use:   "checkInodeUsage",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -76,12 +76,14 @@ to quickly create a Cobra application.`,
 			inodes = append(inodes, in)
 
 		}
+		// Need to make sure the highest condition rules the day
+		// Would be nice to give the threshold as well.
 		for _, i := range inodes {
 			condition = CheckThreshold(i.InodesUsedPercent, warnThreshold, critThreshold)
-			if condition != "0" {
+			if condition != ok {
 				var buffer bytes.Buffer
 				buffer.WriteString(i.Mountpoint)
-				buffer.WriteString("is above the threshold. Usage is")
+				buffer.WriteString(" is above the threshold. Usage is")
 				buffer.WriteString(" ")
 				buffer.WriteString(strconv.FormatUint(i.InodesUsed, 10))
 				buffer.WriteString("/")
@@ -93,14 +95,13 @@ to quickly create a Cobra application.`,
 
 		// exit with the right code
 		switch condition {
-		case "1":
+		case warning:
 			sensuutil.Exit(condition, strings.Join(msg, ","))
-		case "2":
+		case critical:
 			sensuutil.Exit(condition, strings.Join(msg, ","))
 		default:
 			sensuutil.Exit(condition)
 		}
-
 	},
 }
 
