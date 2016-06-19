@@ -25,13 +25,13 @@ import (
 )
 
 //AppVersionMajor is the major revision number
-const AppVersionMajor = "0"
+const AppVersionMajor = "1"
 
 // AppVersionMinor is the minor revison number
 const AppVersionMinor = "0"
 
 // AppVersionPatch is the patch version
-const AppVersionPatch = "2"
+const AppVersionPatch = "0"
 
 // AppVersionPre ...
 const AppVersionPre = ""
