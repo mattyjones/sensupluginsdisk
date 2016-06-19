@@ -22,6 +22,10 @@ package sensupluginsdisk
 
 import "github.com/shirou/gopsutil/disk"
 
+var ok = "0"
+var warning = "1"
+var critical = "2"
+
 // ListPartitions will generate a slice of all partitions on a system.
 // Setting Partitions to true will also give you virtual and non-user filesystems.
 func ListPartitions() []string {
@@ -39,10 +43,10 @@ func ListPartitions() []string {
 func CheckThreshold(val float64, warnT float64, critT float64) string {
 	switch {
 	case val >= critT:
-		return "2"
+		return critical
 	case val >= warnT:
-		return "1"
+		return warning
 	default:
-		return "0"
+		return ok
 	}
 }
