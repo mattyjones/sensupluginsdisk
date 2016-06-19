@@ -22,9 +22,9 @@ package sensupluginsdisk
 
 import "github.com/shirou/gopsutil/disk"
 
-var ok = "0"
-var warning = "1"
-var critical = "2"
+var ok = "ok"
+var warning = "warning"
+var critical = "critical"
 
 // ListPartitions will generate a slice of all partitions on a system.
 // Setting Partitions to true will also give you virtual and non-user filesystems.
