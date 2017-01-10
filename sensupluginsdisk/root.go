@@ -27,7 +27,6 @@ import (
 
 	"github.com/Sirupsen/logrus"
 	"github.com/Sirupsen/logrus/hooks/syslog"
-	"github.com/yieldbot/jenflux/version"
 	"github.com/yieldbot/sensuplugin/sensuutil"
 
 	"github.com/spf13/cobra"
@@ -52,7 +51,7 @@ var msg string
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
 	Use:   "sensupluginsdisk",
-	Short: fmt.Sprintf("A set of chrony checks for Sensu - (%s)", version.AppVersion()),
+	//Short: fmt.Sprintf("A set of chrony checks for Sensu - (%s)", version.AppVersion()),
 	Long: `A longer description that spans multiple lines and likely contains
 examples and usage of using your application. For example:
 
@@ -90,7 +89,7 @@ func init() {
 		syslogLog.WithFields(logrus.Fields{
 			"check":   "sensupluginsdisk",
 			"client":  "unknown",
-			"version": version.AppVersion(),
+			//"version": version.AppVersion(),
 			"error":   err,
 		}).Error(`Could not determine the hostname of this machine as reported by the kernel.`)
 		sensuutil.Exit("GENERALGOLANGERROR")
@@ -120,7 +119,7 @@ func initConfig() {
 		syslogLog.WithFields(logrus.Fields{
 			"check":   "sensupluginsdisk",
 			"client":  host,
-			"version": version.AppVersion(),
+			//"version": version.AppVersion(),
 			"error":   err,
 			"cfgFile": cfgFile,
 		}).Error(`Could not read in the configuration file.`)
